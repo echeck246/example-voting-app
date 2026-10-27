@@ -21,8 +21,16 @@ RUN dotnet restore -a $TARGETARCH
 COPY . .
 RUN dotnet publish -c release -o /app -a $TARGETARCH --self-contained false --no-restore
 
-# app image
-FROM mcr.microsoft.com/dotnet/runtime:7.0
+# app image (pinned base image)
+FROM mcr.microsoft.com/dotnet/runtime:7.0.20-bookworm-slim
 WORKDIR /app
-COPY --from=build /app .
+
+# Create non-root user (Step 2 Requirement)
+RUN useradd -u 10001 -m appuser
+
+COPY --from=build --chown=appuser:appuser /app .
+
+# Run as non-root user
+USER 10001
+
 ENTRYPOINT ["dotnet", "Worker.dll"]
