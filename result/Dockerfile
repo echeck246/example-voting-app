@@ -20,4 +20,4 @@ USER node
 ENV PORT=80
 EXPOSE 80
 
-ENTRYPOINT ["/sbin/tini", "--"]
+CMD ["node", "server.js"]
