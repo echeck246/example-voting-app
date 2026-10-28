@@ -1,0 +1,53 @@
+global:
+  environment: capstone
+
+vote:
+  replicaCount: 1
+  image:
+    repository: echeck246/voting-app-vote
+    tag: db68bab271494789a50f868739c1124e244c81cd
+    pullPolicy: IfNotPresent
+  service:
+    type: NodePort
+    port: 5000
+    targetPort: 80
+    nodePort: 31000
+
+result:
+  replicaCount: 1
+  image:
+    repository: echeck246/voting-app-result
+    tag: db68bab271494789a50f868739c1124e244c81cd
+    pullPolicy: IfNotPresent
+  service:
+    type: NodePort
+    port: 5001
+    targetPort: 8080
+    nodePort: 31001
+
+worker:
+  replicaCount: 1
+  image:
+    repository: echeck246/voting-app-worker
+    tag: db68bab271494789a50f868739c1124e244c81cd
+    pullPolicy: IfNotPresent
+
+redis:
+  image:
+    repository: redis
+    tag: "alpine"
+    pullPolicy: IfNotPresent
+  service:
+    port: 6379
+
+db:
+  image:
+    repository: postgres
+    tag: "15-alpine"
+    pullPolicy: IfNotPresent
+  env:
+    POSTGRES_USER: postgres
+    POSTGRES_PASSWORD: postgres
+    POSTGRES_DB: postgres
+  service:
+    port: 5432

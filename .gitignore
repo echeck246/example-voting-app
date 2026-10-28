@@ -4,3 +4,20 @@ bin/
 obj/
 .vs/
 node_modules/
+
+# Terraform state and credentials
+*.tfstate
+*.tfstate.*
+crash.log
+*.tfvars
+*.tfvars.json
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraform/
+.terraform.lock.hcl
+
+# Environment files
+.env
+.env.*
